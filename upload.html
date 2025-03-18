@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudDrive - Upload Files</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">CloudDrive</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="myfiles.html">My Files</a>
+            <a href="upload.html" class="active">Upload</a>
+            <a href="shared.html">Shared</a>
+            <a href="recent.html">Recent</a>
+        </div>
+        <div class="nav-right">
+            <span id="username-display"></span>
+            <button id="logout-btn" class="btn">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Drive Section -->
+    <section id="drive-section" class="drive-section">
+        <div class="drive-content">
+            <div class="upload-section">
+                <div class="upload-area" id="drop-zone">
+                    <input type="file" id="file-input" multiple hidden>
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Drag & Drop Files Here</h3>
+                    <p>or</p>
+                    <button class="btn btn-upload" onclick="document.getElementById('file-input').click()">
+                        <i class="fas fa-folder-open"></i> Choose Files
+                    </button>
+                    <p class="supported-formats">Supported formats: Images, Videos, Audio, PDFs, Documents</p>
+                </div>
+
+                <!-- Upload Progress -->
+                <div id="upload-progress" class="upload-progress hidden">
+                    <div class="progress-header">
+                        <h3>Uploading Files</h3>
+                        <span id="progress-status">0 of 0 files completed</span>
+                    </div>
+                    <div id="progress-bars"></div>
+                </div>
+
+                <!-- Recent Uploads -->
+                <div id="recent-uploads" class="recent-uploads hidden">
+                    <h3>Recent Uploads</h3>
+                    <div id="recent-files" class="files-grid"></div>
+                    <div class="upload-actions">
+                        <button class="btn btn-upload" onclick="clearUploadArea()">
+                            <i class="fas fa-plus"></i> Upload More Files
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="./js/upload.js"></script>
+</body>
+</html> 

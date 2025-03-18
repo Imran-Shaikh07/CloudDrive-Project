@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudDrive - My Files</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">CloudDrive</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="myfiles.html" class="active">My Files</a>
+            <a href="upload.html">Upload</a>
+            <a href="shared.html">Shared</a>
+            <a href="recent.html">Recent</a>
+        </div>
+        <div class="nav-right">
+            <span id="username-display"></span>
+            <button id="logout-btn" class="btn">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Drive Section -->
+    <section id="drive-section" class="drive-section">
+        <div class="drive-content">
+            <!-- Files Toolbar -->
+            <div class="files-toolbar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="file-search" placeholder="Search files...">
+                </div>
+                <div class="view-options">
+                    <button id="grid-view" class="active">
+                        <i class="fas fa-th-large"></i>
+                    </button>
+                    <button id="list-view">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- My Files Section -->
+            <div id="my-files-section" class="files-section">
+                <h2>My Files</h2>
+                <div id="files-container" class="files-grid">
+                    <!-- Files will be displayed here -->
+                </div>
+                <div id="empty-state" class="empty-state hidden">
+                    <i class="fas fa-folder-open"></i>
+                    <p>No files yet. Upload some files to get started!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Share Modal -->
+    <div id="share-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Share File</h3>
+            <div class="share-info">
+                <div class="share-link-container">
+                    <input type="text" id="share-link" readonly>
+                    <button onclick="copyToClipboard('share-link')">
+                        <i class="fas fa-copy"></i> Copy Link
+                    </button>
+                </div>
+                <div class="share-key-container">
+                    <input type="text" id="decryption-key" readonly>
+                    <button onclick="copyToClipboard('decryption-key')">
+                        <i class="fas fa-key"></i> Copy Key
+                    </button>
+                </div>
+                <button class="close-modal" onclick="closeShareModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Decrypt Modal -->
+    <div id="decrypt-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Decrypt File</h3>
+            <div class="decrypt-info">
+                <div class="share-key-container">
+                    <input type="text" id="decrypt-key-input" placeholder="Enter decryption key">
+                    <button onclick="decryptAndDownload()">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                </div>
+                <button class="close-modal" onclick="closeDecryptModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const user = JSON.parse(currentUser);
+            document.getElementById('username-display').textContent = user.username;
+
+            // Setup logout
+            document.getElementById('logout-btn').addEventListener('click', () => {
+                localStorage.removeItem('currentUser');
+                window.location.href = 'login.html';
+            });
+
+            // Load files
+            loadFiles();
+        });
+
+        // Rest of your existing JavaScript code...
+    </script>
+</body>
+</html> 

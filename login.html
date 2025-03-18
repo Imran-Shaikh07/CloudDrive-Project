@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudDrive - Login</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="auth-section">
+        <div class="auth-container">
+            <h1>CloudDrive</h1>
+            <div class="auth-tabs">
+                <button class="tab-btn active" onclick="switchTab('login')">Login</button>
+                <button class="tab-btn" onclick="switchTab('register')">Register</button>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form">
+                <input type="text" id="login-username" placeholder="Username" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="auth-form" style="display: none;">
+                <input type="text" id="register-username" placeholder="Username" required>
+                <input type="password" id="register-password" placeholder="Password" required>
+                <input type="password" id="register-confirm-password" placeholder="Confirm Password" required>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = localStorage.getItem('currentUser');
+            if (currentUser) {
+                window.location.href = 'index.html';
+            }
+        });
+
+        function switchTab(tab) {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const tabs = document.querySelectorAll('.tab-btn');
+
+            if (tab === 'login') {
+                loginForm.style.display = 'flex';
+                registerForm.style.display = 'none';
+                tabs[0].classList.add('active');
+                tabs[1].classList.remove('active');
+            } else {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'flex';
+                tabs[0].classList.remove('active');
+                tabs[1].classList.add('active');
+            }
+        }
+
+        // Handle Login
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                window.location.href = 'index.html';
+            } else {
+                alert('Invalid username or password');
+            }
+        });
+
+        // Handle Register
+        document.getElementById('register-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('register-username').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            if (users.some(u => u.username === username)) {
+                alert('Username already exists');
+                return;
+            } 
+
+            users.push({ username, password });
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Auto login after registration
+            localStorage.setItem('currentUser', JSON.stringify({ username, password }));
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudDrive - Secure Cloud Storage</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">CloudDrive</a>
+        <div class="nav-links">
+            <a href="index.html" class="active">Home</a>
+            <a href="myfiles.html">My Files</a>
+            <a href="upload.html">Upload</a>
+            <a href="shared.html">Shared</a>
+            <a href="recent.html">Recent</a>
+        </div>
+        <div class="nav-right">
+            <span id="username-display"></span>
+            <button id="logout-btn" class="btn">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="hero-section">
+            <h1>Secure Cloud Storage</h1>
+            <p>Store, share, and access your files from anywhere with end-to-end encryption</p>
+            <div class="quick-actions">
+                <a href="upload.html" class="btn">
+                    <i class="fas fa-upload"></i> Upload Files
+                </a>
+                <a href="myfiles.html" class="btn btn-share">
+                    <i class="fas fa-folder"></i> My Files
+                </a>
+            </div>
+        </section>
+
+        <section class="upload-container" id="drop-zone">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <h3>Drag & Drop Files Here</h3>
+            <p>or</p>
+            <input type="file" id="file-input" multiple style="display: none;">
+            <button class="btn" onclick="document.getElementById('file-input').click()">
+                <i class="fas fa-folder-open"></i> Choose Files
+            </button>
+            <p class="supported-formats">Supported formats: Images, Videos, Audio, PDFs, Documents</p>
+        </section>
+
+        <section class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Secure Storage</h3>
+                <p>Your files are encrypted with military-grade security</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-share-alt"></i>
+                <h3>Easy Sharing</h3>
+                <p>Share files securely with anyone, anywhere</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-sync"></i>
+                <h3>Auto Sync</h3>
+                <p>Your files are automatically synced across devices</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 CloudDrive. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Check authentication
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                const user = JSON.parse(currentUser);
+                document.getElementById('username-display').textContent = user.username;
+
+                // Setup logout
+                document.getElementById('logout-btn').addEventListener('click', () => {
+                    localStorage.removeItem('currentUser');
+                    window.location.href = 'login.html';
+                });
+            } catch (error) {
+                console.error('Error parsing user data:', error);
+                localStorage.removeItem('currentUser');
+                window.location.href = 'login.html';
+            }
+        });
+    </script>
+</body>
+</html> 

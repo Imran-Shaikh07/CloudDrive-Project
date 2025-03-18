@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudDrive - Recent Files</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">CloudDrive</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="myfiles.html">My Files</a>
+            <a href="upload.html">Upload</a>
+            <a href="shared.html">Shared</a>
+            <a href="recent.html" class="active">Recent</a>
+        </div>
+        <div class="nav-right">
+            <span id="username-display"></span>
+            <button id="logout-btn" class="btn">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Drive Section -->
+    <section id="drive-section" class="drive-section">
+        <div class="drive-content">
+            <!-- Files Toolbar -->
+            <div class="files-toolbar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="file-search" placeholder="Search recent files...">
+                </div>
+                <div class="view-options">
+                    <button id="grid-view" class="active">
+                        <i class="fas fa-th-large"></i>
+                    </button>
+                    <button id="list-view">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Recent Files Section -->
+            <div id="recent-section" class="files-section">
+                <h2>Recent Files</h2>
+                <div id="recent-container" class="files-grid">
+                    <!-- Recent files will be displayed here -->
+                </div>
+                <div id="empty-state" class="empty-state hidden">
+                    <i class="fas fa-clock"></i>
+                    <p>No recent files. Upload or access some files to see them here!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Decrypt Modal -->
+    <div id="decrypt-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Decrypt File</h3>
+            <div class="decrypt-info">
+                <div class="share-key-container">
+                    <input type="text" id="decrypt-key-input" placeholder="Enter decryption key">
+                    <button onclick="decryptAndDownload()">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                </div>
+                <button class="close-modal" onclick="closeDecryptModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/recent.js"></script>
+</body>
+</html> 
